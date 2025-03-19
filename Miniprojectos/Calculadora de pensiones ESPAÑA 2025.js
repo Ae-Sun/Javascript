@@ -67,9 +67,9 @@ const laPagaDelaJubilacion = function (ageCotizados,BaseDeCotizacionTotal,age){
 
 let laPagaConMaximosYMinimos = function(laPagaDelaJubilacion){
     let edadDeLaPersona = prompt("¿Tiene la persona 65? Si lo tiene responde 1, si tiene además gran invalidez responde 2. Si no responde 0 o no respondas",0)
-    if ((edadDeLaPersona) === Number){
+    if (!isNaN(edadDeLaPersona) === true){
         let condicionDePersona = prompt("Si tiene conyuge a cargo responde 1, si tiene conyuge pero no a cargo responde 2.Si no tiene conyuge responde 0 o no respondas",0)
-        if((condicionDePersona === Number)){
+        if(!isNaN(condicionDePersona) === true){
             switch (`${edadDeLaPersona},${condicionDePersona}`){
                 case "0,0": 
 
