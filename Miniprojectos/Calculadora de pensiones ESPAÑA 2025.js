@@ -16,70 +16,54 @@ const salarioMinimo = {
     }
 }
 
+const laPagaDelaJubilacion = function (ageCotizados, BaseDeCotizacionTotal, age) {
+    let BasedeCotizacionMensual = BaseDeCotizacionTotal / 350;
+    let mesesDeCotizacion = ageCotizados * 12;
 
+    // Función para calcular el porcentaje de base de cotización
+    const PorcentajeDeBaseDeCotizacion = function () {
+        if (mesesDeCotizacion >= 444) {
+            return 1;
+        } else if (mesesDeCotizacion > 428) {
+            return 0.5 + (mesesDeCotizacion - 428) * 0.18;
+        } else if (mesesDeCotizacion >= 180) {
+            return 0.5 + (mesesDeCotizacion - 180) * 0.19;
+        } else {
+            return 0;
+        }
+    };
 
-const laPagaDelaJubilacion = function (ageCotizados,BaseDeCotizacionTotal,age){
-    let BasedeCotizacionMensual = BaseDeCotizacionTotal/350
-    let mesesDeCotizacion = age*12
-    const PorcentajeDeBaseDeCotizacion = function(age){
-        if (mesesDeCotizacion>=444){
-            return(1)
-            }else if (mesesDeCotizacion>428){
-                return(0.5+0.4712+(mesesDeCotizacion-428)*0.18)
-            }else if (mesesDeCotizacion>=180){
-                return(0.5+(mesesDeCotizacion-180)*0.19)
-            }else {
-                return(0)
-            }
-            }
-    const pensionJubilatoria = PorcentajeDeBaseDeCotizacion(age)*BasedeCotizacionMensual
-    if(age>=66.5){
-        console.log("puedes acceder a las pensiones")
-        return(pensionJubilatoria)
-        } else if(age>=65 && ageCotizados >= 38.25){
-            console.log("puedes acceder a las pensiones")
-           return(pensionJubilatoria)
-        } else if (age>=60){
-            console.log("Esta es una jubilación Anticipada")
-                if(ageCotizados<30){
-                    console.log("Reduccion de la pension agresiva porque llevas menos de 30 años cotizados")
-                    return(pensionJubilatoria*(1-0.08*(65-age)))
-                } else{
-                    if(ageCotizados<=34){
-                        return(pensionJubilatoria*(1-0.075*(65-age)))
-                    }
-                    else if(ageCotizados<=37) {
-                        return(pensionJubilatoria*(1-0.07*(65-age)))
-                    }else if(ageCotizados<=39) {
-                        return(pensionJubilatoria*(1-0.065*(65-age)))
-                    }else {
-                        return(pensionJubilatoria*(1-0.06*(65-age)))
-                    }
-                    }
-                }
-          else{
-            console.log("no tienes derecho a la pension de jubilación, aun eres demasiado JOVEN")
-            return(0)
-          }  
+    const pensionJubilatoria = PorcentajeDeBaseDeCotizacion() * BasedeCotizacionMensual;
 
+    if (age >= 66.5) {
+        console.log("Puedes acceder a las pensiones");
+        return pensionJubilatoria;
+    } else if (age >= 65 && ageCotizados >= 38.25) {
+        console.log("Puedes acceder a las pensiones");
+        return pensionJubilatoria;
+    } else if (age >= 60) {
+        console.log("Esta es una jubilación anticipada");
 
+        let reduccion;
+        if (ageCotizados < 30) {
+            console.log("Reducción de la pensión agresiva porque llevas menos de 30 años cotizados");
+            reduccion = 0.08;
+        } else if (ageCotizados <= 34) {
+            reduccion = 0.075;
+        } else if (ageCotizados <= 37) {
+            reduccion = 0.07;
+        } else if (ageCotizados <= 39) {
+            reduccion = 0.065;
+        } else {
+            reduccion = 0.06;
         }
 
-let laPagaConMaximosYMinimos = function(laPagaDelaJubilacion){
-    let edadDeLaPersona = prompt("¿Tiene la persona 65? Si lo tiene responde 1, si tiene además gran invalidez responde 2. Si no responde 0 o no respondas",0)
-    if (!isNaN(edadDeLaPersona) === true){
-        let condicionDePersona = prompt("Si tiene conyuge a cargo responde 1, si tiene conyuge pero no a cargo responde 2.Si no tiene conyuge responde 0 o no respondas",0)
-        if(!isNaN(condicionDePersona) === true){
-            switch (`${edadDeLaPersona},${condicionDePersona}`){
-                case "0,0": 
+        return pensionJubilatoria * (1 - reduccion * (65 - age));
+    } else {
+        console.log("No tienes derecho a la pensión de jubilación, aún eres demasiado joven");
+        return 0;
+    }
+};
 
-            }
-        }else{
-            console.log("introduciste un valor erronio, solo de admite 1, 2 o 0")
-        }
-    }else {
-            console.log("introduciste un valor erronio, solo de admite 1, 2 o 0")
-        }
-}
-
-
+// Llamada a la función corregida ducks
+console.log(laPagaDelaJubilacion(37, 400000, 66));
